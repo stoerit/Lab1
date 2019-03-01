@@ -7,57 +7,79 @@
         <meta name="author" content="Eric Stober">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <script src="chart.js/Chart.js"></script>
-        <script src="chart.js/Chart.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
         <script src="csgoplayerdata.js"></script>
+
+        <style>
+        
+            #infoBox {
+                background-color: #bfbfbf;
+            }
+
+            #title {
+                padding-left: 40%;
+                padding-top: 1%;
+            }
+
+            #statInfo{
+                padding-left: 17%;
+                padding-bottom: 1%;
+            }
+
+            #chartContainer {
+                width: 50%;
+                height: 200px;
+                margin-left: 25%;
+            }
+
+            body {
+                background-color: #e6f9ff;
+            }
+
+        </style>
     </head>
     <body>
 
         <!--canvas tag the allows the chart to be drawn-->
+        <div id="infoBox">
+            <h1 id="title">Top 5 CSGO Players</h1>
+            <h4 id="statInfo">Players are rated on a 1.0 to 2.0 scales based on various statistics such as Damage rating, Kill rating, KAST rating, Impact rating, and Survival rating</h4>
+        </div>
         <div id="chartContainer">
-            <canvas id="myChart" width="400" height="400"></canvas>
+            <canvas id="myChart"></canvas>
         </div>
 
         <script>
-            var ctx = document.getElementById("myChart");
-            var myBarChart = new Chart(ctx, {
+
+            listObject = players;
+            console.log(listObject);
+
+            listObject.sort(function(a,b) {
+                return b.Rating - a.Rating;
+            });
+            console.log(listObject.length);
+            console.log(listObject);
+
+            var ctx = document.getElementById('myChart').getContext('2d');//start for chart code
+                var chart = new Chart(ctx, {
+                // The type of chart we want to create
                 type: 'bar',
+                
+                // The data for our dataset
                 data: {
-
-                    labels:[players.name[0], players.name[1], players.name[2], players.name[3], players.name[4], players.name[5], players.name[6], players.name[7], players.name[8], players.name[9], players.name[10], players.name[11], players.name[12], players.name[13], players.name[14], players.name[15], players.name[16], players.name[17], players.name[18], players.name[19], players.name[20], players.name[21], players.name[22], players.name[23], players.name[24]],
-
+                    labels: [listObject[0].name, listObject[1].name, listObject[2].name, listObject[3].name, listObject[4].name],
                     datasets: [{
-                        label: "Rating out of 2.0",
-                        data: [players.rating[players.length]],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
+                        label: "CSGO Players by Rating",
+                        backgroundColor: 'rgb(190, 190, 200)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        data: [listObject[0].rating, listObject[1].rating, listObject[2].rating, listObject[3].rating, listObject[4].rating]
                     }]
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero:true
-                            }
-                        }]
-                    }
-                }
-            });
+                
+                // Configuration options go here
+                options: {}
+                });
+
         </script>
     </body>
 </html>
